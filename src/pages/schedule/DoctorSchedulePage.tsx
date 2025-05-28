@@ -6,6 +6,7 @@ import Button from '../../components/ui/Button';
 import Select from '../../components/ui/Select';
 import { useDoctorStore } from '../../store/doctorStore';
 import { useAuthStore } from '../../store/authStore';
+import ReceptionScheduleView from './ReceptionScheduleView';
 
 const weekDays = [
   { value: '1', label: 'Poniedziałek' },
@@ -35,6 +36,12 @@ const DoctorSchedulePage: React.FC = () => {
   );
 
   if (!user) return null;
+
+  // If user is receptionist, show the reception schedule view
+  if (user.role === 'receptionist') {
+    return <ReceptionScheduleView />;
+  }
+
   const doctor = user.role === 'doctor' ? getDoctorById(user.id) : null;
 
   const handleScheduleChange = (dayOfWeek: string, field: string, value: string) => {
